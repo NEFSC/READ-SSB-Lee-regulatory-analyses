@@ -131,7 +131,9 @@ A significant action is any regulatory action that may:
 
 In deciding whether and how to regulate, agencies should assess all costs and benefits of available regulatory alternatives. Costs and benefits shall be understood to include both quantifiable measures (to the fullest extent that these can be usefully estimated) and qualitative measures of costs and benefits that are difficult to quantify, but nevertheless essential to consider. 
 
-The draft action will set ACLs and other fishery specification for 2025-2027. In aggregate these changes will allow the fishing industry to catch, land, and sell more Atlantic herring relative to 2023 conditions. Higher revenues are expected.  Increases in producer surplus accrue to the Atlantic herring fishing industry.  Increases in consumer surplus accrue to the users of Atlantic herring, individuals and firms that target American lobster and frequently use herring as bait.   We do not project changes in consumer or producer surplus.  Changes in gross revenues derived from Atlantic herring landings are used as a proxy for these measures.
+Relative to 2023 conditions, the draft action will set ACLs and other fishery specification for 2025-2027. In aggregate these changes will allow the fishing industry to catch, land, and sell less Atlantic herring  Lower revenues are expected.  Decreases in producer surplus accrue to the Atlantic herring fishing industry.  Decreases in consumer surplus accrue to the users of Atlantic herring, individuals and firms that target American lobster and frequently use herring as bait.   We do not project changes in consumer or producer surplus.  Changes in gross revenues derived from Atlantic herring landings are used as a proxy for these measures.
+
+Relative to the 2025 ACL that was previously set under an Emergency Action (89 FR 103695, December 19, 2004) the draft action will allow the fishing industry to catch, land, and sell more Atlantic herring. Higher revenues are expected.  Increases in producer surplus accrue to the Atlantic herring fishing industry.  Increases in consumer surplus accrue to the users of Atlantic herring, individuals and firms that target American lobster and frequently use herring as bait.   We do not project changes in consumer or producer surplus.  Changes in gross revenues derived from Atlantic herring landings are used as a proxy for these measures.
 
 Furthermore, the stock of Atlantic herring itself has value: it produces future generations of fish and higher stock levels make harvesting less costly. Although not presently available, in the future, a bioeconomic model could be pursued that includes a stock-recruitment relationship to quantify the value of the changes in stock levels. We do not undertake this.
 
@@ -193,7 +195,7 @@ kbl(yearly_rev %>%
       dplyr::filter(year>=2021 & year<=2023) %>%
     select(c(year, 'ACL (mt)', 'Landings (mt)', 'Herring Value (M)')) , digits=2,booktabs=T, align=c("l",rep('r',times=2)), caption =  "Recent ACLs (metric tons), Landings (mt), and Gross Revenues derived from herring (Real 2023 USD)") %>%
     #column_spec(5:8, width = "2cm")
-    kable_styling(full_width = F) %>% 
+    kable_styling(full_width = F,latex_options = "hold_position") %>% 
       row_spec(0,bold=FALSE) 
 ```
 
@@ -212,7 +214,7 @@ After reviewing the updated stock assessment, the New England Fishery Management
 
 Fishery conditions in 2023 are used as **baseline A**.  In 2023, the ACL was `r baseline$'ACL (mt)'`mt and landings were `r baseline$Landings`mt. An alternative baseline, **baseline B**, is the 2025 ACL (2,710mt) associated with in-season adjustment (89 FR 103695).  Recent catches have been close to the ACLs, and therefore, this analysis assumes that catch is equal to the ACLs in each of the specification years. 
 
-The draft ACL specifications are 4,556 mt, 9,134 mt, and 13,156 mt in 2025-2027 respectively.
+The proposed specifications include ACLs of 4,556 mt, 9,134 mt, and 9,134 mt in 2025-2027 respectively.
 
 #### Prices and Revenues
 
@@ -292,7 +294,7 @@ baselineB<-baselineAB %>%
 
 
 proj_rev<-data.frame(year=2025:2027, 
-          Landings=c(4556, 9134,13156)
+          Landings=c(4556, 9134,9134)
 )
 proj_rev<-proj_rev %>% 
   mutate(year=as.character(year)) %>%
@@ -420,9 +422,9 @@ proj_revCR<-proj_revCR %>%
 proj_revCR<-proj_revCR %>%
   mutate(across(c(`Landings`), ~ number(.x, accuracy=1, big.mark=",")))
 
-kbl(proj_revCR %>% select(c(Year, Price, Revenue, 'Revenue Change')), digits=0,booktabs=T, align=c("l",rep('r',times=3)), caption =  "Projected landings (mt), prices (real 2023 USD/mt), revenues (real 2023 USD) and revenue change relative to the baseline for 2025-2027 specifications from the Amendment 8 ABC Control Rule.") %>%
+kbl(proj_revCR %>% select(c(Year, Price, Revenue, 'Revenue Change')), digits=0,booktabs=T, align=c("l",rep('r',times=5)), caption =  "Projected landings (mt), prices (real 2023 USD/mt), revenues (real 2023 USD) and revenue change relative to the baseline for 2025-2027 specifications from the Amendment 8 ABC Control Rule.") %>%
     #column_spec(5:8, width = "2cm")
-    kable_styling(full_width = F) %>% 
+    kable_styling(full_width = F,latex_options = "hold_position") %>% 
       row_spec(0,bold=FALSE) 
 ```
 
@@ -566,13 +568,18 @@ Active_DRE_table <- Active_ABCE %>%
 
 kbl(Active_DRE_table %>% dplyr::filter(Size=="Small"), digits=0,booktabs=T, align=c("l",rep('r',times=7)), caption =  "Number and characterization of the small, active directly regulated entities with A, B, C, or E permit, trailing five years of data. Figures for the large firms cannot be presented to preserve confidentiality.") %>%
     #column_spec(1:4, width = "1cm") %>%
-    kable_styling(full_width = T) %>% 
+    kable_styling(full_width = T,latex_options = "hold_position") %>% 
       row_spec(0,bold=FALSE) 
 
 ```
 
 
 ### Impacts on Small firms
+
+
+To describe the effects of the changes in catch limits on small firms, this analysis projects firm-level revenue corresponding to the 2025-2027 ACLs in the draft action.  The 2023 outcomes (herring and total revenues) are used as a baseline.  The analysis assumes: 1)  that the share of Atlantic herring landings for each firm is equal to their 2019-2023 average and 2) that the firms non-herring revenues are constant at 2023 levels. Directly regulated entities that were inactive therefore have no projected revenue. The focus is on the vessels that have A, B, C, or E permits. Table \ref{tab:projected_revenues} summarizes the projected gross receipts, projected herring receipts, and baseline values.  Figures  \ref{figure_boxR} and \ref{fig:figure_boxH} illustrate the projected yearly distribution of total and herring revenues from the active vessels with A,B,C, or E Atlantic herring permits.
+
+The projected decrease in gross revenues and Atlantic herring revenues is moderate.  Over the 2025-2027, average gross receipts for small firms are projected to decline slightly relative to 2023 levels.  This decrease primarily occurs in 2025, when the herring ACL is low compared to the 2023 ACL.  In 2025, small firms are expected to experience a decline in gross receipts of approximately 7\% relative to 2023 levels.  In 2026 and 2027, the decrease in gross receipts for small firms is expected to be approximately than 1\% relative to 2023 levels.
 
 ```{r projected_revenues}
 # Compute the firm-level total revenues and shares.
@@ -666,7 +673,7 @@ projected_firm_rev_ABCE_table<-full_join(projected_firm_rev_ABCE_table,baseline_
 
 kbl(projected_firm_rev_ABCE_table %>%dplyr::filter(Size=="Small") %>% dplyr::filter(Year!="BaselineA"), digits=0,booktabs=T, align=c("l",rep('r',times=7)), caption =  "Average projected and baseline gross receipts and herring receipts for small firms with A,B,C, or E permits. Figures for large firms cannot be shown due to data confidentiality.") %>%
    # column_spec(1:4, width = "1.5cm") %>%
-    kable_styling(full_width = T) %>%
+    kable_styling(full_width = T,latex_options = "hold_position") %>% 
    # kable_styling(font_size = 8) %>%
 
       row_spec(0,bold=FALSE) 
@@ -695,9 +702,6 @@ p2+geom_boxplot(outlier.shape = NA) +
   scale_y_continuous(limits = c(0, 200) )
 ```
 
-To describe the effects of the changes in catch limits on small firms, this analysis projects firm-level revenue corresponding to the 2025-2027 ACLs in the draft action. The analysis assumes: 1)  that the share of Atlantic herring landings for each firm is equal to their 2019-2023 average and 2) that the firms non-herring revenues are constant at 2023 levels. The 2023 outcomes (herring and total revenues) are used as a baseline. Directly regulated entities that were inactive therefore have no projected revenue. The focus is on the vessels that have A, B, C, or E permits. Table \ref{tab:projected_revenues} summarizes the projected gross receipts, projected herring receipts, and baseline values.  Figures  \ref{figure_boxR} and \ref{fig:figure_boxH} illustrate the projected yearly distribution of total and herring revenues from the active vessels with A,B,C, or E Atlantic herring permits.
-
-The projected decrease in gross revenues and Atlantic herring revenues is moderate.  Over the 2025-2027, average gross receipts for small firms are projected to decline slightly relative to 2023 levels.  
 
 ### Compliance Requirements
 \textcolor{red}{A description of the projected reporting, record-keeping, and other compliance requirements of the proposed rule, including an estimate of the classes of small entities which will be subject to the requirements of the report or record.}
