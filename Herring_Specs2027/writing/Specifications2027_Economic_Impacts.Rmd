@@ -123,7 +123,8 @@ affiliates<-readRDS(RFA_filepath)
 \setcounter{table}{1}
 
 
-
+<!---
+Commented out. No 12866 section.
 ## Regulatory Impact Analysis 
 
 The purpose of Executive Order 12866 (E.O. 12866, 58 FR 51735, October 4, 1993) is to enhance planning and coordination with respect to new and
@@ -141,24 +142,33 @@ A significant action is any regulatory action that may:
 4. Raise legal or policy issues for which centralized review would meaningfully further the President's priorities or the principles set forth in this Executive order, as specifically authorized in a timely manner by the Administrator of OIRA in each case.
 
 In deciding whether and how to regulate, agencies should assess all costs and benefits of available regulatory alternatives. Costs and benefits shall be understood to include both quantifiable measures (to the fullest extent that these can be usefully estimated) and qualitative measures of costs and benefits that are difficult to quantify, but nevertheless essential to consider. 
+--->
+
 
 <!---
-Copied over from 2025 SIR text, needs to be updated.
-Relative to 2023 conditions, the draft action will set ACLs and other fishery specification for 2025-2027. In aggregate these changes will allow the fishing industry to catch, land, and sell less Atlantic herring  Lower revenues are expected.  Decreases in producer surplus accrue to the Atlantic herring fishing industry.  Decreases in consumer surplus accrue to the users of Atlantic herring, individuals and firms that target American lobster and frequently use herring as bait.   We do not project changes in consumer or producer surplus.  Changes in gross revenues derived from Atlantic herring landings are used as a proxy for these measures.
+Updated for 2027 if we need a 12866 section.
+Relative to current conditions, the draft action will set ACLs and other fishery specification for 2027-2031.  The status quo ACL is 9,134mt.  Alternatives 2 and 3 specify ACLs of 5,401 and 6,926 mt respectively.  Decreases in producer surplus accrue to the Atlantic herring fishing industry.  Decreases in consumer surplus accrue to the users of Atlantic herring, individuals and firms that target American lobster and frequently use herring as bait.   We do not project changes in consumer or producer surplus.  Changes in gross revenues derived from Atlantic herring landings are used as a proxy for these measures.
 
-Relative to the 2025 ACL that was previously set under an Emergency Action (89 FR 103695, December 19, 2004) the draft action will allow the fishing industry to catch, land, and sell more Atlantic herring. Higher revenues are expected.  Increases in producer surplus accrue to the Atlantic herring fishing industry.  Increases in consumer surplus accrue to the users of Atlantic herring, individuals and firms that target American lobster and frequently use herring as bait.   We do not project changes in consumer or producer surplus.  Changes in gross revenues derived from Atlantic herring landings are used as a proxy for these measures.
+The stock of Atlantic herring itself has value: it produces future generations of fish and higher stock levels make harvesting less costly. Although not presently available, in the future, a bioeconomic model could be pursued that includes a stock-recruitment relationship to quantify the value of the changes in stock levels. We do not undertake this.
 
-Furthermore, the stock of Atlantic herring itself has value: it produces future generations of fish and higher stock levels make harvesting less costly. Although not presently available, in the future, a bioeconomic model could be pursued that includes a stock-recruitment relationship to quantify the value of the changes in stock levels. We do not undertake this.
+All alternatives under consideration specify an ACL that is constant over a 5 year period. Therefore, no discounting is require to compare across the alternatives.
+
+
 --->
+
+
+<!---
 ### Management Goals and Objectives
 
 \textcolor{red}{By reference}
 
+
 ### Description of the Fishery and other affected entitites
 
 ACLs, landings, and revenues from herring from 2019 to 2025, deflated to real 2025 dollars using the GDP implicit price deflator are presented in table \ref{tab:herring_rev_table}.
+--->
 
-```{r herring_rev_table, eval=TRUE}
+```{r herring_rev_table, eval=TRUE, results='hide'}
 # ACLs from the GARFo quota monitoring page https://www.greateratlantic.fisheries.noaa.gov/ro/fso/reports/quota_monitoring_archive.html
 
 ACL_mt <- data.frame(year=2019:2026,
@@ -203,16 +213,8 @@ yearly_rev<-yearly_rev %>%
   mutate(across(c('Landings (mt)', 'ACL (mt)'), ~ number(.x, accuracy=1, big.mark=",")))
 
 
-
-kbl(yearly_rev %>%
-      dplyr::filter(year>=2021 & year<=2025) %>%
-      rename(Year=year) %>%
-    select(c(Year, 'ACL (mt)', 'Landings (mt)', 'Herring Value (M)')) , digits=2,booktabs=T, align=c("l",rep('r',times=2)), caption =  "Recent ACLs (metric tons), Landings (mt), and Gross Revenues derived from herring (Real 2025 USD)") %>%
-    #column_spec(5:8, width = "2cm")
-    kable_styling(full_width = F,latex_options = "hold_position") %>% 
-      row_spec(0,bold=FALSE) 
 ```
-
+<!---
 See Sections 3 and 4 for a more complete description of the fishery.
 
 
@@ -220,177 +222,7 @@ See Sections 3 and 4 for a more complete description of the fishery.
 
 The New England Fishery Management Council adopted an ABC control rule in Amendment 8 (A8) to the Atlantic Herring FMP. The ABC control rule prescribes F as a function of SSB. FW8 and 9 implemented the ABC control rule for the 2021-2027 fishing years.  Updated specifications are necessary for 2027-2031. 
 
-
-### Economic impacts relative to the baseline
-
-Fishery conditions in 2025 are used as **baseline A**.  In 2023, the ACL was `r baseline$'ACL (mt)'`mt and landings were `r baseline$Landings`mt. An alternative baseline, **baseline B**, is the 2027 ACL (9,134mt) associated with in-season adjustment (89 FR 103695).  Recent catches have been close to the ACLs, and therefore, this analysis assumes that catch is equal to the ACLs in each of the specification years. 
-
-The proposed specifications include ACLs of 9,134mt (no action) 5,401 mt (Alternative 2), and 6,926mt (Alternative 3). These would be held constant for five years (2027-2031).
-
-
-#### Prices and Revenues
-
-This analysis uses the econometric model, first developed in FW9 and refined in the 2025 SIR, that estimates a relationship between real 2023 prices and landings and includes data through 2023. This allows for a projection of future prices in each of the specification years. Prices are in dollars per metric ton and landings are in thousands of metric tons. The first column of Table 13 contains the model of prices that are used to predict future prices^[A least-squares regression will produce biased estimates if prices and quantities are simultaneously determined.  An Instrumental Variables estimator, where previous year's landings is used as an instrument for landings, can overcome this problem.  A pair of log-transformed models are also estimated. The first column is the preferred specification and used for predictions. The other three columns are presented as robustness checks.   The log-landings coefficient from the IV model is an elasticity and implies that an increase in landings of 1\% will reduce prices by 0.36\%.]. Based on the econometric model of prices, predicted prices and revenues are calculated according to:
-
-\begin{align}
-\mbox{Projected Price} &= 889 - 6.02*\mbox{landings}\label{eq:predicted_price}\\
-\mbox{Projected Revenue} &=  (889 - 6.02*\mbox{landings}) *\mbox{landings}\label{eq:predicted_landings}
-\end{align}
-
-The landings coefficient implies that, on average, a decrease in annual landings of 1,000 mt will increases prices by approximately \$6 per metric ton.  Similarly, an increase in annual landings of 1,000 mt will decrease prices by approximately \$6 per metric ton.
-
-\begin{table}[htbp]
-  \begin{center}
-    \input{../tables/Yregression_results2023.tex}
-     \caption{Econometric model of Atlantic herring prices used to project prices and revenues under the baseline and draft action \label{regression_results}}
-  \end{center}
-\end{table}
-
-We make one further adjustment: we adjust the predicted prices to Real 2025 values using the GDP Implicit price deflator. This is done by multiplying prices and values by an adjustment factor of `r round(multipliers_2023_to_2025,3)`. 
-
-#### Baseline Description
-
-
-```{r setup_baselines, eval=TRUE}
-
-
-baselineAB<-data.frame(year=c("BaselineB","BaselineA"),
-          Landings=c(9134,baseline$Landings)
-) 
-
-
-baselineAB<-baselineAB %>%
-  mutate(Price=889-6.02*Landings/1000) %>%
-  mutate(Revenue=Price*Landings) %>%
-  mutate(Price=Price*multipliers_2023_to_2025,
-        Revenue=Revenue*multipliers_2023_to_2025)
-
-baselineABX<-baselineAB %>%
-  mutate(across(c(Price), ~ number(.x, accuracy=1,prefix="$", big.mark=","))) %>%
-  mutate(across(c(Revenue), ~ number(.x, accuracy=1000,prefix="$", big.mark=",")))
-
-#Extract Revenues in numeric
-baselineRevenueA<-baselineAB %>%
-  filter(year=="BaselineA") %>%
-  pull(as.numeric(Revenue))
-
-#Extract Revenues in numeric
-baselineRevenueB<-baselineAB %>%
-  filter(year=="BaselineB") %>%
-  pull(as.numeric(Revenue))
-
-
-#Extract Revenues in print friendly
-assign("baselineRevenueAX",baselineABX[baselineABX$year =="BaselineA" ,"Revenue"])
-assign("baselineRevenueBX",baselineABX[baselineABX$year =="BaselineB" ,"Revenue"])
-
-assign("baselineRevenueActual",baselineX$Actual_Revenue)
-
-
-# Extract price per mt
-assign("baselinePriceA",baselineABX[baselineABX$year =="BaselineA" ,"Price"])
-assign("baselinePriceB",baselineABX[baselineABX$year =="BaselineB" ,"Price"])
-
-assign("baselinePriceActual", baselineX$`Actual Price`)
-
-
-
-baselineA<-baselineAB %>%
-  dplyr::filter(year=="BaselineA")
-baselineB<-baselineAB %>%
-  dplyr::filter(year=="BaselineB")
-
-
-```
-
-
-
-
-```{r projected_revenue, eval=TRUE}
-# 2025 to 2027 ACLs
-
-
-proj_rev<-data.frame(Alternative=1:3, 
-          Landings=c(9134, 5401, 6926)
-)
-
-proj_rev<-proj_rev %>% 
-  mutate(Alternative=as.character(Alternative)) %>%
-    mutate(Price=889-6.02*Landings/1000) %>%
-  mutate(Revenue=Price*Landings) %>%
-  mutate(Price=Price*multipliers_2023_to_2025,
-        Revenue=Revenue*multipliers_2023_to_2025)
-
-
-proj_rev<-proj_rev %>%
-  mutate(Rn=Revenue,
-         `Revenue ChangeA`=Revenue-baselineRevenueA,
-           `Revenue ChangeB`=Revenue-baselineRevenueB)
-
-proj_rev<-proj_rev %>%
-  mutate(across(c(`Revenue`,'Revenue ChangeA','Revenue ChangeB', Revenue), ~ number(.x, accuracy=1000,prefix="$", big.mark=","))) 
-
-proj_rev<-proj_rev %>%
-  mutate(across(c(`Price`, Price), ~ number(.x, accuracy=1,prefix="$", big.mark=",")))
-proj_rev<-proj_rev %>%
-  mutate(across(c(`Landings`), ~ number(.x, accuracy=1, big.mark=",")))
-
-```
-
-The 2025 actual landings of  `r baselineA$Landings` is used as the **baseline A**; this corresponds to projected prices of  **`r baselinePriceA` per metric ton** and projected real gross revenues derived from Atlantic herring of **`r baselineRevenueAX`** . Both of these figures are higher than the actual prices (**`r baselinePriceActual` per metric ton**) and revenues (**`r baselineRevenueActual`**). On average, predictions from the price model will match the actual prices, but in any particular year, they will be different. Nevertheless, we use the projected prices in the construction of baseline revenue so that an model errors are removed when comparing effects of different sets of ACLs to the baseline. 
-
-<!--- done through here, I think--->
-
-
-
-The 2027 status quo ACLs of **`r baselineB$Landings`mt** is used as **baseline B**; this corresponds to projected prices of  **`r baselinePriceB` per metric ton** and projected real gross revenues derived from Atlantic herring of **`r baselineRevenueBX`** .
-
-#### Benefits (Gross Revenues) of the draft action
-
-```{r prices_revenues_table, eval=TRUE}
-kbl(proj_rev %>% select(c(Alternative, Landings, Price, Revenue, 'Revenue ChangeA', 'Revenue ChangeB' )), digits=0,booktabs=T, align=c("l",rep('r',times=5)), caption =  "Projected landings (mt), prices (real 2025 USD/mt), revenues (real 2025 USD) and revenue change relative to the two baselines for 2025-2027 draft specifications") %>%
-    #column_spec(5:8, width = "2cm")
-    kable_styling(full_width = F, latex_options="hold_position") %>% 
-      row_spec(0,bold=FALSE) 
-```
-
-```{r npv, eval=FALSE, results='hide'}
-# switched off and not updated (would have to fix Year)
-# Compute NPV of change in revenue at the 3% and 7% discount rates. No table is made here. I'm just computing a pair on numbers and sticking it into the text.
-
-proj_rev$df3<-1.03
-proj_rev$df7<-1.07
-
-
-proj_rev2<-proj_rev %>%
-  filter(Year %in% c("2025", "2026" ,"2027"))%>%
-  mutate(Year=as.numeric(Year),
-         `Revenue ChangeA`=Rn-baselineRevenueA,
-         `Revenue ChangeB`=Rn-baselineRevenueB,
-         df3=df3^(Year-2025),
-         df7=df7^(Year-2025)
-         ) %>%
-  mutate(rev3A=`Revenue ChangeA`/df3,
-         rev3B=`Revenue ChangeB`/df3,
-         rev7A=`Revenue ChangeA`/df7,
-         rev7B=`Revenue ChangeB`/df7) %>%
- summarise(rev3A=abs(sum(rev3A)),
-          rev3B=abs(sum(rev3B)),
-          rev7A=abs(sum(rev7A)),
-          rev7B=abs(sum(rev7B)),
-          rcA=abs(sum(`Revenue ChangeA`)),
-          rcB=abs(sum(`Revenue ChangeB`))
-         ) %>%
-  mutate(across(c(rev3A, rev3B, rev7A, rev7B, rcA, rcB), ~ number(.x, accuracy=1000,prefix="$", big.mark=",")))
-
-```
-
-Table \ref{tab:prices_revenues_table} summarizes the annual prices, revenues, and revenues changes due to the draft action relative to the two baselines. The draft action will result higher landings and revenues compared to baseline A (2025).  However, the draft action will results in lower landings and revenue compared to baseline B (status quo regulations).
-
-<!---All policies have the constant streams of landings and revenues, there's nothing to be gained from a policy analysis perspective by discounting.  This section is commented out. 
-
 --->
-
 
 
 ## Regulatory Flexibility Act Analysis
@@ -527,10 +359,157 @@ kbl(Active_DRE_table %>% dplyr::filter(Size=="Small"), digits=0,booktabs=T, alig
 
 ### Impacts on Small firms
 
+To describe the effects of the changes in catch limits on small firms, this analysis projects firm-level revenue corresponding to the 2027 ACLs in the draft action.  The 2025 outcomes (herring and total revenues) are used as a baseline.  The analysis assumes: 1)  that the share of Atlantic herring landings for each firm is equal to their 2021-2025 average and 2) that the firms non-herring revenues are constant at 2025 levels. Directly regulated entities that were inactive at that time therefore have no projected revenue. The focus is on the vessels that have A, B, C, or E permits. Table \ref{tab:projected_revenues} summarizes the projected gross receipts, projected herring receipts, and baseline values.  Figures  \ref{figure_boxR} and \ref{fig:figure_boxH} illustrate the projected yearly distribution of total and herring revenues from the active vessels with A,B,C, or E Atlantic herring permits.
 
-To describe the effects of the changes in catch limits on small firms, this analysis projects firm-level revenue corresponding to the 2027 ACLs in the draft action.  The 2025 outcomes (herring and total revenues) are used as a baseline.  The analysis assumes: 1)  that the share of Atlantic herring landings for each firm is equal to their 2021-2025 average and 2) that the firms non-herring revenues are constant at 2025 levels. Directly regulated entities that were inactive therefore have no projected revenue. The focus is on the vessels that have A, B, C, or E permits. Table \ref{tab:projected_revenues} summarizes the projected gross receipts, projected herring receipts, and baseline values.  Figures  \ref{figure_boxR} and \ref{fig:figure_boxH} illustrate the projected yearly distribution of total and herring revenues from the active vessels with A,B,C, or E Atlantic herring permits.
+This analysis using an econometric model, first developed in FW9 and refined in the 2025 SIR, that estimates a relationship between real 2023 prices and landings and includes data through 2023. This allows for a projection of prices and revenues under various levels of harvest.  Prices are in dollars per metric ton and landings are in thousands of metric tons. The first column of Table 13 contains the model of prices that are used to predict future prices^[A least-squares regression will produce biased estimates if prices and quantities are simultaneously determined.  An Instrumental Variables estimator, where previous year's landings is used as an instrument for landings, can overcome this problem.  A pair of log-transformed models are also estimated. The first column is the preferred specification and used for predictions. The other three columns are presented as robustness checks.   The log-landings coefficient from the IV model is an elasticity and implies that an increase in landings of 1\% will reduce prices by 0.36\%.]. Based on the econometric model of prices, predicted prices and revenues are calculated according to:
 
-The projected decrease in gross revenues and Atlantic herring revenues is moderate.  In 2027, <!--- copy over from 2025, need to check revise average gross receipts for small firms are projected to decline slightly relative to 2023 levels.  This decrease primarily occurs in 2025, when the herring ACL is low compared to the 2023 ACL.  In 2025, small firms are expected to experience a decline in gross receipts of approximately 7\% relative to 2023 levels.  In 2026 and 2027, the decrease in gross receipts for small firms is expected to be approximately than 1\% relative to 2023 levels. --->
+\begin{align}
+\mbox{Projected Price} &= 889 - 6.02*\mbox{landings}\label{eq:predicted_price}\\
+\mbox{Projected Revenue} &=  (889 - 6.02*\mbox{landings}) *\mbox{landings}\label{eq:predicted_landings}
+\end{align}
+
+The landings coefficient implies that, on average, a decrease in annual landings of 1,000 mt will increases prices by approximately \$6 per metric ton.  Similarly, an increase in annual landings of 1,000 mt will decrease prices by approximately \$6 per metric ton.
+
+\begin{table}[htbp]
+  \begin{center}
+    \input{../tables/Yregression_results2023.tex}
+     \caption{Econometric model of Atlantic herring prices used to project prices and revenues under the baseline and draft action \label{regression_results}}
+  \end{center}
+\end{table}
+
+We make one further adjustment: we adjust the predicted prices to Real 2025 values using the GDP Implicit price deflator. This is done by multiplying prices and values by an adjustment factor of `r round(multipliers_2023_to_2025,3)`. 
+
+#### Projected Aggregate Outcomes
+
+```{r setup_baselines, eval=TRUE}
+
+baselineAB<-data.frame(year=c("BaselineB","BaselineA"),
+          Landings=c(9134,baseline$Landings)
+) 
+
+baselineAB<-baselineAB %>%
+  mutate(Price=889-6.02*Landings/1000) %>%
+  mutate(Revenue=Price*Landings) %>%
+  mutate(Price=Price*multipliers_2023_to_2025,
+        Revenue=Revenue*multipliers_2023_to_2025)
+
+baselineABX<-baselineAB %>%
+  mutate(across(c(Price), ~ number(.x, accuracy=1,prefix="$", big.mark=","))) %>%
+  mutate(across(c(Revenue), ~ number(.x, accuracy=1000,prefix="$", big.mark=",")))
+
+#Extract Revenues in numeric
+baselineRevenueA<-baselineAB %>%
+  filter(year=="BaselineA") %>%
+  pull(as.numeric(Revenue))
+
+#Extract Revenues in numeric
+baselineRevenueB<-baselineAB %>%
+  filter(year=="BaselineB") %>%
+  pull(as.numeric(Revenue))
+
+
+#Extract Revenues in print friendly
+assign("baselineRevenueAX",baselineABX[baselineABX$year =="BaselineA" ,"Revenue"])
+assign("baselineRevenueBX",baselineABX[baselineABX$year =="BaselineB" ,"Revenue"])
+
+assign("baselineRevenueActual",baselineX$Actual_Revenue)
+
+
+# Extract price per mt
+assign("baselinePriceA",baselineABX[baselineABX$year =="BaselineA" ,"Price"])
+assign("baselinePriceB",baselineABX[baselineABX$year =="BaselineB" ,"Price"])
+
+assign("baselinePriceActual", baselineX$`Actual Price`)
+
+
+
+baselineA<-baselineAB %>%
+  dplyr::filter(year=="BaselineA")
+baselineB<-baselineAB %>%
+  dplyr::filter(year=="BaselineB")
+
+```
+
+
+
+
+```{r projected_revenue, eval=TRUE}
+# 2025 to 2027 ACLs
+
+
+proj_rev<-data.frame(Alternative=1:3, 
+          Landings=c(9134, 5401, 6926)
+)
+
+proj_rev<-proj_rev %>% 
+  mutate(Alternative=as.character(Alternative)) %>%
+    mutate(Price=889-6.02*Landings/1000) %>%
+  mutate(Revenue=Price*Landings) %>%
+  mutate(Price=Price*multipliers_2023_to_2025,
+        Revenue=Revenue*multipliers_2023_to_2025)
+
+
+proj_rev<-proj_rev %>%
+  mutate(Rn=Revenue,
+         `Revenue ChangeA`=Revenue-baselineRevenueA,
+           `Revenue ChangeB`=Revenue-baselineRevenueB)
+
+proj_rev<-proj_rev %>%
+  mutate(across(c(`Revenue`,'Revenue ChangeA','Revenue ChangeB', Revenue), ~ number(.x, accuracy=1000,prefix="$", big.mark=","))) 
+
+proj_rev<-proj_rev %>%
+  mutate(across(c(`Price`, Price), ~ number(.x, accuracy=1,prefix="$", big.mark=",")))
+proj_rev<-proj_rev %>%
+  mutate(across(c(`Landings`), ~ number(.x, accuracy=1, big.mark=",")))
+
+```
+<!---
+The 2025 actual landings of  `r baselineA$Landings` is used as the **baseline A**; this corresponds to projected prices of  **`r baselinePriceA` per metric ton** and projected real gross revenues derived from Atlantic herring of **`r baselineRevenueAX`** . Both of these figures are higher than the actual prices (**`r baselinePriceActual` per metric ton**) and revenues (**`r baselineRevenueActual`**). On average, predictions from the price model will match the actual prices, but in any particular year, they will be different. Nevertheless, we use the projected prices in the construction of baseline revenue so that an model errors are removed when comparing effects of different sets of ACLs to the baseline. 
+--->
+
+
+The 2027 status quo ACLs of **`r baselineB$Landings`mt** is used as the **baseline**; this corresponds to projected prices of  **`r baselinePriceB` per metric ton** and projected real gross revenues derived from Atlantic herring of **`r baselineRevenueBX`**.
+
+
+```{r npv, eval=FALSE, results='hide'}
+# switched off and not updated (would have to fix Year)
+# Compute NPV of change in revenue at the 3% and 7% discount rates. No table is made here. I'm just computing a pair on numbers and sticking it into the text.
+
+proj_rev$df3<-1.03
+proj_rev$df7<-1.07
+
+
+proj_rev2<-proj_rev %>%
+  filter(Year %in% c("2025", "2026" ,"2027"))%>%
+  mutate(Year=as.numeric(Year),
+         `Revenue ChangeA`=Rn-baselineRevenueA,
+         `Revenue ChangeB`=Rn-baselineRevenueB,
+         df3=df3^(Year-2025),
+         df7=df7^(Year-2025)
+         ) %>%
+  mutate(rev3A=`Revenue ChangeA`/df3,
+         rev3B=`Revenue ChangeB`/df3,
+         rev7A=`Revenue ChangeA`/df7,
+         rev7B=`Revenue ChangeB`/df7) %>%
+ summarise(rev3A=abs(sum(rev3A)),
+          rev3B=abs(sum(rev3B)),
+          rev7A=abs(sum(rev7A)),
+          rev7B=abs(sum(rev7B)),
+          rcA=abs(sum(`Revenue ChangeA`)),
+          rcB=abs(sum(`Revenue ChangeB`))
+         ) %>%
+  mutate(across(c(rev3A, rev3B, rev7A, rev7B, rcA, rcB), ~ number(.x, accuracy=1000,prefix="$", big.mark=",")))
+
+```
+
+Table \ref{tab:prices_revenues_table} summarizes the annual prices, revenues, and revenues changes due to the draft action relative to the two baselines. The draft action will result higher landings and revenues compared to baseline A (2025).  However, the draft action will results in lower landings and revenue compared to baseline B (status quo regulations).
+
+<!---All policies have the constant streams of landings and revenues, there's nothing to be gained from a policy analysis perspective by discounting.  This section is commented out. 
+--->
+
+<!---
+This is a copy over from 2025s.
+The projected decrease in gross revenues and Atlantic herring revenues is moderate.  need to check revise average gross receipts for small firms are projected to decline slightly relative to 2023 levels.  This decrease primarily occurs in 2025, when the herring ACL is low compared to the 2023 ACL.  In 2025, small firms are expected to experience a decline in gross receipts of approximately 7\% relative to 2023 levels.  In 2026 and 2027, the decrease in gross receipts for small firms is expected to be approximately than 1\% relative to 2023 levels. --->
 
 ```{r projected_revenues}
 # Compute the firm-level total revenues and shares.
@@ -660,6 +639,39 @@ p2+geom_boxplot(outlier.shape = NA) +
 
 
 \newpage
+
+# Extra context
+
+This is additional context, but not required for the RFA section.  It might be useful in other sections.
+
+```{r yearly_rev_table, eval=TRUE}
+
+kbl(yearly_rev %>%
+      dplyr::filter(year>=2021 & year<=2025) %>%
+      rename(Year=year) %>%
+    select(c(Year, 'ACL (mt)', 'Landings (mt)', 'Herring Value (M)')) , digits=2,booktabs=T, align=c("l",rep('r',times=2)), caption =  "Recent ACLs (metric tons), Landings (mt), and Gross Revenues derived from herring (Real 2025 USD)") %>%
+    #column_spec(5:8, width = "2cm")
+    kable_styling(full_width = F,latex_options = "hold_position") %>% 
+      row_spec(0,bold=FALSE) 
+```
+
+
+
+## Benefits (Gross Revenues) of the draft action
+
+
+\@ref(tab:prices_revenues_table) summarizes projected prices, and revenue for each alternative. It also summarizes changes in gross revenues relative to 2025 (Revenue ChangeA) and 2027 status quo (Revenue ChangeB). Note that Alternative 1 is the status quo, so by defnition Revenue ChangeB=0.
+
+```{r prices_revenues_table, eval=TRUE}
+kbl(proj_rev %>% 
+      filter(Alternative !="BaselineA") %>%
+      select(c(Alternative, Landings, Price, Revenue, 'Revenue ChangeA', 'Revenue ChangeB' ))
+             , digits=0,booktabs=T, align=c("l",rep('r',times=5)), caption =  "Projected landings (mt), prices (real 2025 USD/mt), revenues (real 2025 USD) and revenue change relative to the two baselines for 2025-2027 draft specifications") %>%
+    #column_spec(5:8, width = "2cm")
+    kable_styling(full_width = F, latex_options="hold_position") %>% 
+      row_spec(0,bold=FALSE) 
+```
+
 
 
 
