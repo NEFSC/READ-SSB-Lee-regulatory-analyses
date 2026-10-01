@@ -20,7 +20,7 @@ fontsize: 12pt
 # Summary and Housekeeping
 The 2027-2031 Atlantic herring fishery specifications are needed to set the ABCs and ACLs for the upcoming 5 fishing years. The previous specifications were set in by a specifications action for 2025-2027.
 
-A supplemental EA is being prepared for these specifications. *If* there are no implementing regulations, then only a Regulatory Flexibility Act Analysis is required. 
+A supplemental EA is being prepared for these specifications. Because there are no implementing regulations, only a Regulatory Flexibility Act Analysis is required. A 12866 section is not required.
 
 This analysis was written in RMarkdown. It can be found at https://github.com/NEFSC/READ-SSB-Lee-regulatory-analyses
 
