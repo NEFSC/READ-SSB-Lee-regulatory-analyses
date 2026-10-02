@@ -34,14 +34,11 @@ This analysis was written in RMarkdown. It can be found at https://github.com/NE
  library("data.table")
  library("scales")
  library("ggplot2")
- library("dplyr")
- library("tidyr")
- library("stringr")
  library("knitr")
- library("lubridate")
  library("here")
- library("kableExtra")
- library("haven")
+  library("kableExtra")
+ library("tidyverse")
+library("haven")
 here::i_am("Herring_Specs2027/writing/Specifications2027_Economic_Impacts.Rmd")
 options(scipen=999)
 #############################################################################
@@ -206,6 +203,8 @@ baselineX<-baseline %>%
 
 
 
+baselineACL<-baseline$`ACL (mt)`
+baselineLandings<-baseline$`Landings`
 
 ```
 <!---
@@ -365,7 +364,7 @@ utilization_rate<-yearly_rev %>%
 
 ### Impacts on Small firms
 
-This analysis projects firm-level revenue corresponding to the 2027 ACLs in the draft action.  The 2025 outcomes (herring and total revenues) are used as a baseline[^fn_baseline].  The analysis assumes that: 
+This analysis projects firm-level revenue corresponding to the 2027 ACLs in the draft action.  The 2025 outcomes (herring landings and total revenues) are used as a baseline[^fn_baseline].  The analysis assumes that: 
 
 *  The share of Atlantic herring landings for each firm is equal to their 2021-2025 average. 
 *  Each firm's non-herring revenues are constant at 2025 levels. Directly regulated entities that were inactive at that time therefore have no projected revenue. 
@@ -486,7 +485,7 @@ The 2025 actual landings of  `r baselineA$Landings` is used as the **baseline A*
 --->
 
 
-The 2025 status quo ACLs produces landings of **`r baselineA$Landings`mt** when adjusted for recent historical landings. This is used as the **baseline** with corresponding projected prices of **`r baselinePriceA` per metric ton** and real gross revenues derived from Atlantic herring of **`r baselineRevenueAX`**. 
+The Baseline is characterized by an ACL of  `r baselineACL`mt and landings of **`r baselineA$Landings`mt**.  This is associated with prices of **`r baselinePriceA` per metric ton** and real gross revenues derived from Atlantic herring of **`r baselineRevenueAX`**. 
 
 <!---All policies have the constant streams of landings and revenues, there's nothing to be gained from a policy analysis perspective by discounting.  This section is commented out. 
 --->
@@ -595,10 +594,12 @@ kbl(projected_firm_rev_ABCE_table %>%dplyr::filter(Firms>=3) %>% dplyr::filter(A
 
 ```{r boxplotsR, fig.cap="\\label{figure_boxR}Box Plots of Projected Firm Level Revenue under the draft action, small firms only"}
 projected_firm_rev_ABCE<-projected_firm_rev_ABCE %>%
-    filter(Type !="NO_REV" & Size=="Small") #%>%
-#   mutate(sort=if_else(Year=="Status Quo", "-1", Year)) %>%
-#  arrange(sort) %>%
-#  select(-sort)
+    filter(Type !="NO_REV" & Size=="Small") %>%
+   mutate(Alternative=if_else(Alternative=="BaselineA", "Baseline", Alternative)) %>%
+   mutate(sort_order=as.numeric(if_else(Alternative=="Baseline", "-1", Alternative))) %>%
+   mutate(Alternative = factor(Alternative)) %>% 
+   mutate(Alternative=fct_reorder(Alternative, sort_order))%>%
+   select(-sort_order)
 
 p<-ggplot(projected_firm_rev_ABCE, aes(Alternative, sim_value_firm/1000))
 p+geom_boxplot(outlier.shape = NA) +
@@ -614,6 +615,14 @@ p2+geom_boxplot(outlier.shape = NA) +
   scale_y_continuous(limits = c(0, 200) )
 ```
 
+
+```{r histograms_H, eval=FALSE}
+# We don't want to show histograms, because they're essentially individuals.
+p2<-ggplot(projected_firm_rev_ABCE, aes(sim_value_161722/1000)) + 
+  geom_histogram()  +
+  labs(x="Projected Herring Revenue ('000s of Real2025USD)")+ 
+  facet_wrap(~Alternative)
+```
 
 ### Compliance Requirements
 \textcolor{red}{A description of the projected reporting, record-keeping, and other compliance requirements of the proposed rule, including an estimate of the classes of small entities which will be subject to the requirements of the report or record.}
@@ -648,7 +657,6 @@ kbl(yearly_rev %>%
 
 ## Econometric model
 
-
 This analysis using an econometric model, first developed in FW9 and refined in the 2025 SIR, that estimates a relationship between real 2023 prices and landings and includes data through 2023. This allows for a projection of prices and revenues under various levels of harvest.  Prices are in dollars per metric ton and landings are in thousands of metric tons. The first column of Table 13 contains the model of prices that are used to predict future prices^[A least-squares regression will produce biased estimates if prices and quantities are simultaneously determined.  An Instrumental Variables estimator, where previous year's landings is used as an instrument for landings, can overcome this problem.  A pair of log-transformed models are also estimated. The first column is the preferred specification and used for predictions. The other three columns are presented as robustness checks.   The log-landings coefficient from the IV model is an elasticity and implies that an increase in landings of 1\% will reduce prices by 0.36\%.]. Based on the econometric model of prices, predicted prices and revenues are calculated according to:
 
 \begin{align}
@@ -670,7 +678,6 @@ The model implies that a decrease in annual landings of 1,000 mt will increases 
 ## Benefits (Gross Revenues) of the draft action
 
 \@ref(tab:prices_revenues_table) summarizes the annual prices, revenues, and revenues changes due to the draft action relative to the baseline. The draft action will result higher landings and revenues compared to the 2025 baseline. 
-
 
 ```{r prices_revenues_table, eval=TRUE}
 # note, add back a comparison to the 2027 status quo by adding 'Revenue ChangeB' to the select statement
