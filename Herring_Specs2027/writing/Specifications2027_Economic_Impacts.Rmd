@@ -299,7 +299,7 @@ large_fishing_firms<-Directly_Regulated_Entities_table$Firms[Directly_Regulated_
 small_forhire_firms<-Directly_Regulated_Entities_table$Firms[Directly_Regulated_Entities_table$Size=="Small"& Directly_Regulated_Entities_table$Type=="For-Hire"]
 ```
 
-The directly-regulated entities are the firms that currently hold at least 1 Northeast US herring fishing permit (Categories A, B, C, D, or E).  Firms are classified as "Large" or "Small" based on trailing 5 years of revenue.  Table \ref{tab:make_DRE_table} describes numbers of directly-regulated entities, their main activities, and their revenues from various sources.   `r  small_fishing_firms` small firms derive the majority of their revenue from commercial fishing operations.   `r large_fishing_firms` of the large firms derive the majority of their revenue from commercial fishing activities. `r small_forhire_firms` small firms derive a majority of their revenue from for-hire recreational fishing activities. The for-hire firms, while holding at least one Atlantic herring permit, did not derive any revenue from Atlantic herring.
+The directly-regulated entities are the firms that currently hold at least 1 Northeast US herring fishing permit (Categories A, B, C, D, or E).  Firms are classified as "Large" or "Small" based on trailing 5 years of revenue.  Table \ref{tab:make_DRE_table} describes numbers of directly-regulated entities, their main activities, and their revenues from various sources.   `r  small_fishing_firms` small firms derive the majority of their revenue from commercial fishing operations.   `r large_fishing_firms` of the large firms derive the majority of their revenue from commercial fishing activities. `r small_forhire_firms` small firms derive a majority of their revenue from for-hire recreational fishing activities. The for-hire firms, while holding at least one Atlantic herring permit, did not derive any revenue from Atlantic herring over the trailing 5 years.
 
 ```{r make_DRE_table} 
 kbl(Directly_Regulated_Entities_table, digits=0,booktabs=T, align=c("l",rep('r',times=7)), caption =  "Number and characterization of the directly regulated entities and average trailing five years of revenue") %>%
@@ -495,7 +495,7 @@ The 2025 actual landings of  `r baselineA$Landings` is used as the **baseline A*
 --->
 
 
-The Baseline is characterized by an ACL of  `r baselineACL`mt and landings of **`r baselineLandings`**.  This is associated with prices of **`r baselinePriceA` per metric ton** and real gross revenues derived from Atlantic herring of **`r baselineRevenueAX`**. 
+The Baseline is characterized by an ACL of  **`r baselineACL`mt** and landings of **`r baselineLandings`mt**.  This is associated with prices of **`r baselinePriceA` per mt** and real gross revenues derived from Atlantic herring of **`r baselineRevenueAX`**. 
 
 <!---All policies have the constant streams of landings and revenues, there's nothing to be gained from a policy analysis perspective by discounting.  This section is commented out. 
 --->
@@ -594,7 +594,7 @@ projected_firm_rev_ABCE_table<-full_join(projected_firm_rev_ABCE_table,baseline_
 #filter if there are not enough Large.  Adjust caption. 
 if (n_Large<=2) {
   projected_firm_rev_ABCE_table<-projected_firm_rev_ABCE_table %>% dplyr::filter(Size=="Small") 
-  projected_rev.cap<-"Average projected and baseline gross receipts and herring receipts for small firms with A,B,C, or E permits. Statistics for large firms cannot be shown due to data confidentiality."
+  projected_rev.cap<-"Impacts on Small Firms: Average projected and baseline gross receipts and herring receipts for small firms with A,B,C, or E permits. Statistics for large firms cannot be shown due to data confidentiality."
 } else{
     projected_rev.cap<-"Average projected and baseline gross receipts and herring receipts for small firms with A,B,C, or E permits."
 }
