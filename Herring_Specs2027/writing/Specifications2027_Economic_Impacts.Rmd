@@ -661,7 +661,9 @@ p2<-ggplot(projected_firm_rev_ABCE, aes(sim_value_161722/1000)) +
 
 # Extra context
 
-This is additional context, but not required for the RFA section.  It might be useful in other sections.
+This is additional context, but not required for the RFA section.  It is probably useful for the SEA section.
+
+The proposed ACLs are similar to the ACLs analysed in Framework 8 and section 6.5 of Framework 8 and the 2025 SIR are incorporated by reference for context.   
 
 ## Annual Revenue 
 
@@ -703,7 +705,7 @@ The model implies that a decrease in annual landings of 1,000 mt will increases 
 
 ## Benefits (Gross Revenues) of the draft action
 
-\ref(tab:prices_revenues_table) summarizes the annual prices, revenues, and revenues changes due to the draft action relative to the baseline. All three alternatives are likely to produce higher landings and revenues compared to the 2025 baseline, although all increases are modest. 
+\ref{tab:prices_revenues_table} summarizes the annual prices, revenues, and revenues changes due to the draft action relative to the baseline. All three alternatives are likely to produce higher landings and revenues compared to the 2025 baseline, although all increases are modest. 
 
 ```{r prices_revenues_table, eval=TRUE}
 # note, add back a comparison to the 2027 status quo by adding 'Revenue ChangeB' to the select statement
