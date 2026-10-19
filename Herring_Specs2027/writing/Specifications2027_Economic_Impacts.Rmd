@@ -14,6 +14,7 @@ output:
   bookdown::html_document2:
     global_numbering: true
     number_sections: yes
+    embed-resources: true
 header-includes: \usepackage{setspace}\doublespacing
 urlcolor: blue
 editor_options:
@@ -522,14 +523,18 @@ The New England Fishery Management Council adopted an ABC control rule in Amendm
 ## Regulatory Flexibility Act Analysis
 
 ###  A description of the reasons why action by the agency is being considered.
-\textcolor{red}{By reference}
+
+By reference
 
 ### A succinct statement of the objectives of, and legal basis for, the proposed rule.
-\textcolor{red}{By reference}
+
+By reference
 
 ### Number of Small entities
 
-The directly-regulated entities are the firms that currently hold at least 1 Northeast US herring fishing permit (Categories A, B, C, D, or E).  Firms are classified as "Large" or "Small" based on trailing 5 years of revenue.  Table \@ref(tab:makeDREtable) describes numbers of directly-regulated entities, their main activities, and their revenues from various sources.   `r  small_fishing_firms` small firms derive the majority of their revenue from commercial fishing operations.   `r large_fishing_firms` of the large firms derive the majority of their revenue from commercial fishing activities. `r small_forhire_firms` small firms derive a majority of their revenue from for-hire recreational fishing activities. The for-hire firms, while holding at least one Atlantic herring permit, did not derive any revenue from Atlantic herring over the trailing 5 years.
+The directly-regulated entities are the firms that currently hold at least 1 Northeast US herring fishing permit (Categories A, B, C, D, or E). Firms are classified as "Large" or "Small" based on trailing 5 years of revenue.  Many of these firms only hold a category-D open access permit which has a 6,600lb Atlantic herring possession limit. These firms are less impacted by closures of the fishery when the catch limits are reached, because the possession limits are set to 2,000 pounds of Atlantic herring when this occurs.  The herring fishery has had historically low ACLs since 2018 and some firms have stopped participating in the fishery. They may hold herring permits to preserve the option to fish in the future but are not currently active.  Therefore, we characterize the small entities using two screens.  First, we describe all directly regulated entities. Second we describe the active vessels that hold a category A, B, C, or E permit.  
+
+ Table \@ref(tab:makeDREtable) characterizes all directly regulated entities. `r  small_fishing_firms` small firms derive the majority of their revenue from commercial fishing operations.   `r large_fishing_firms` of the large firms derive the majority of their revenue from commercial fishing activities. `r small_forhire_firms` small firms derive a majority of their revenue from for-hire recreational fishing activities. The for-hire firms, while holding at least one Atlantic herring permit, did not derive any revenue from Atlantic herring over the trailing 5 years.
 
 ```{r makeDREtable} 
 kbl(Directly_Regulated_Entities_table, digits=0,booktabs=T, align=c("l",rep('r',times=7)), caption =  "Number and characterization of the directly regulated entities and average trailing five years of revenue") %>%
@@ -538,10 +543,7 @@ kbl(Directly_Regulated_Entities_table, digits=0,booktabs=T, align=c("l",rep('r',
       row_spec(0,bold=FALSE) 
 ```
 
-Table \@ref(tab:makeDREtable) suggests that there are many small firms in the Atlantic herring industry and that Atlantic herring is minimally important to those firms.  While all of the small fishing firms described in table \@ref(tab:makeDREtable) hold a Atlantic herring permit, many of these firms only hold a category-D open access permit which has a 6,600lb Atlantic herring possession limit. These firms are less impacted by closures of the fishery when the catch limits are reached, because the possession limits are set to 2,000 pounds of Atlantic herring when this occurs. Furthermore, many of the firms described in Table \@ref(tab:makeDREtable) are not actively engaged in the herring fishery.  The herring fishery has had historically low ACLs since 2018 and some firms have stopped participating in the fishery. They may hold herring permits to preserve the option to fish.
-
-Table \@ref(tab:activeDREtable) describes a subset of the directly-regulated small entities, those that are participated in the Atlantic herring fishery between 2021 and 2025 and hold a category A, B, C, or E Atlantic herring permit. Because there only 2 active large firms, we only present a description of the active small firms. The small firms identified in Table \@ref(tab:activeDREtable) are the firms most likely to be impacted by changes in ACLs.
-
+Table \@ref(tab:activeDREtable) describes the active firms that participated in the Atlantic herring fishery between 2021 and 2025 and hold a category A, B, C, or E Atlantic herring permit. Because there are only 2 active large firms, we only present a description of the active small firms. The small firms identified in Table \@ref(tab:activeDREtable) are the firms most likely to be impacted by changes in ACLs.
 
 
 ```{r activeDREtable}
@@ -567,7 +569,7 @@ kbl(Active_DRE_table, digits=0,booktabs=T, align=c("l",rep('r',times=7)), captio
 
 ### Impacts on Small firms
 
-This analysis projects firm-level revenue corresponding to the 2027 ACLs in the draft action.  The 2025 outcomes (herring landings and total revenues) are used as a baseline[^fn_baseline].  Alternative 3 was selected by the NEFMC as a preferred alternative.  All alternatives, are projected to lead to modest increases in gross revenues for small firms relative to the baseline conditions.
+This analysis projects firm-level revenue corresponding to the 2027 ACLs in the draft action.  The 2025 outcomes (herring landings and total revenues) are used as a baseline[^fn_baseline].  Alternative 3 was selected by the NEFMC as a preferred alternative.  All alternatives are projected to lead to modest increases in gross revenues for small firms relative to the baseline conditions.
 
 The analysis assumes that: 
 
@@ -582,8 +584,8 @@ The focus of this section analysis is on the vessels that have A, B, C, or E per
 This analysis uses the results of an econometric model to project prices and revenues under various levels of harvest.  Prices are in dollars per metric ton and landings are in thousands of metric tons.  Based on the econometric model of prices, predicted prices and revenues are calculated according to:
 
 \begin{align}
-\mbox{Projected Price} &= 889 - 6.02*\mbox{landings}\label{eq:predicted_price}\\
-\mbox{Projected Revenue} &=  (889 - 6.02*\mbox{landings}) *\mbox{landings}\label{eq:predicted_landings}
+\text{Projected Price} &= 889 - 6.02 \times \text{landings} (\#eq:predicted-price) \\
+\text{Projected Revenue} &= (889 - 6.02 \times \text{landings}) \times \text{landings} (\#eq:predicted-landings)
 \end{align}
 
 The model was estimated using 2023 dollars, therefore we adjust the predicted prices to Real 2025 values using the GDP Implicit Price Deflator. This is done by multiplying prices and values by an adjustment factor of `r round(multipliers_2023_to_2025,3)`. 
@@ -609,7 +611,7 @@ Table \@ref(tab:PricesRevenuesTable) summarizes the aggregate annual prices, rev
 ```{r PricesRevenuesTable, eval=TRUE}
 # note, add back a comparison to the 2027 status quo by adding 'Revenue ChangeB' to the select statement
 
-prt.caption=glue("Projected annual landings (mt), prices (real 2025 USD/mt), revenues (real 2025 USD) and revenue change relative to the 2025 baseline (ACL={baselineACL} and Landings={baselineLandings}) for 2027-2031 draft specifications")
+prt.caption=glue("Projected annual landings (mt), prices (real 2025 USD/mt), revenues (real 2025 USD) and revenue change relative to the 2025 baseline (ACL of {baselineACL}mt, Landings of {baselineLandings}mt, and modeled revenue of {baselineRevenueAX}) for 2027-2031.")
 
 kbl(proj_rev %>% 
       filter(Alternative !="BaselineA") %>%
@@ -706,10 +708,12 @@ p2<-ggplot(projected_firm_rev_ABCE, aes(sim_value_161722/1000)) +
 \clearpage
 
 ### Compliance Requirements
-\textcolor{red}{A description of the projected reporting, record-keeping, and other compliance requirements of the proposed rule, including an estimate of the classes of small entities which will be subject to the requirements of the report or record.}
+
+A description of the projected reporting, record-keeping, and other compliance requirements of the proposed rule, including an estimate of the classes of small entities which will be subject to the requirements of the report or record.
 
 ### Duplications
-\textcolor{red}{An identification, to the extent practicable, of all relevant Federal rules, which may duplicate, overlap, or conflict with the proposed rule.}
+
+An identification, to the extent practicable, of all relevant Federal rules, which may duplicate, overlap, or conflict with the proposed rule.
 
 
 
